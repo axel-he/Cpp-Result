@@ -1,0 +1,9 @@
+# build output
+build/
+out/
+
+# IDE
+.vscode/
+.settings/
+.cproject
+.project
