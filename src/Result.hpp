@@ -68,6 +68,14 @@ class FnResult : public std::optional<_ValueType> {
         }
         return *this;
     }
+
+    inline bool operator==(const _ValueType &value) {
+        return this->success() && (this->value() == value);
+    }
+
+    inline bool operator!=(const _ValueType &value) {
+        return !(*this == value);
+    }
 };
 
 static inline FnResult<> Ok() { return FnResult<>(); }
@@ -85,6 +93,31 @@ Err(int errorCode, const std::error_category &cat = std::generic_category()) {
 template <typename _ErrorType>
 static inline FnResult<std::monostate, _ErrorType> Err(const _ErrorType &err) {
     return FnResult<std::monostate, _ErrorType>(err);
+}
+
+template <typename _LeftErrorType, typename _RightErrorType>
+static bool
+operator==(const FnResult<std::monostate, _LeftErrorType> &left,
+           const FnResult<std::monostate, _RightErrorType> &right) noexcept {
+    const bool success = left.success() && right.success();
+    return success;
+}
+
+template <typename _ValueType, typename _LeftErrorType,
+          typename _RightErrorType>
+static bool
+operator==(const FnResult<_ValueType, _LeftErrorType> &left,
+           const FnResult<_ValueType, _RightErrorType> &right) noexcept {
+    const bool success = left.success() && right.success();
+    return success && (left.value() == right.value());
+}
+
+template <typename _ValueType, typename _LeftErrorType,
+          typename _RightErrorType>
+static bool
+operator!=(const FnResult<_ValueType, _LeftErrorType> &left,
+           const FnResult<_ValueType, _RightErrorType> &right) noexcept {
+    return !(left == right);
 }
 
 } // namespace Result

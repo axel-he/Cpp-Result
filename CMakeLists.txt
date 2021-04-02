@@ -12,6 +12,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(BasicExample examples/BasicExample.cpp)
 add_executable(ResultValueExample examples/ResultValueExample.cpp)
 add_executable(HandlerExample examples/HandlerExample.cpp)
+add_executable(ResultComparison examples/ResultComparison.cpp)
 
 # set global include directories for project executables
 include_directories(src/)
