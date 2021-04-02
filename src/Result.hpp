@@ -27,10 +27,8 @@ class FnResult : public std::optional<_ValueType> {
     FnResult(const FnResult<std::monostate, _ErrorType> &obj)
         : _error(obj.error()) {}
 
-    inline _ValueType &get_value_or_throw() const {
-        if (_ResultType::has_error()) {
-            throw_error();
-        }
+    inline const _ValueType &get_value_or_throw() const {
+        this->throw_on_error();
         return _BaseType::value();
     }
 
@@ -40,27 +38,31 @@ class FnResult : public std::optional<_ValueType> {
 
     inline bool success() const noexcept { return !has_error(); }
 
-    inline FnResult &throw_on_error() const {
+    inline const FnResult &throw_on_error() const {
         if (has_error()) {
-            throw std::system_error(_error);
+            throw std::system_error(this->error());
         }
+        return *this;
     }
 
-    inline FnResult &on_success(std::function<void(const _ValueType &)> fn) {
+    inline const FnResult &
+    on_success(std::function<void(const _ValueType &)> fn) const noexcept {
         if (success()) {
             fn(value());
         }
         return *this;
     }
 
-    inline FnResult &on_success(std::function<void(void)> fn) {
+    inline const FnResult &
+    on_success(std::function<void(void)> fn) const noexcept {
         if (success()) {
             fn();
         }
         return *this;
     }
 
-    inline FnResult &on_error(std::function<void(const _ErrorType &err)> fn) {
+    inline const FnResult &
+    on_error(std::function<void(const _ErrorType &err)> fn) const noexcept {
         if (!success()) {
             fn(error());
         }

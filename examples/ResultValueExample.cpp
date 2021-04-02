@@ -24,6 +24,7 @@ int main(int argc, char *argv[]) {
         // assert(result.value() == 0.5); /* would throw */
         assert(result.has_error() == true);
         assert(result.error().value() == ERR_DIVISION_BY_ZERO);
+        // assert(result.get_value_or_throw() == 0.5); /* would throw */
     }
 
     // success result
@@ -34,6 +35,7 @@ int main(int argc, char *argv[]) {
         assert(result.value() == 0.5);
         assert(result.has_error() == false);
         // assert(result.error()); /* would throw */
+        assert(result.get_value_or_throw() == 0.5);
     }
 
     return 0;
