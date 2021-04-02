@@ -48,7 +48,7 @@ class FnResult : public std::optional<_ValueType> {
     inline const FnResult &
     on_success(std::function<void(const _ValueType &)> fn) const noexcept {
         if (success()) {
-            fn(value());
+            fn(_BaseType::value());
         }
         return *this;
     }
@@ -72,13 +72,13 @@ class FnResult : public std::optional<_ValueType> {
     inline FnResult &
     touch_value(std::function<void(_ValueType &value)> fn) noexcept {
         if (success()) {
-            fn(value());
+            fn(_BaseType::value());
         }
         return *this;
     }
 
     inline bool operator==(const _ValueType &value) {
-        return this->success() && (this->value() == value);
+        return this->success() && (_BaseType::value() == value);
     }
 
     inline bool operator!=(const _ValueType &value) {
