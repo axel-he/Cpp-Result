@@ -69,6 +69,14 @@ class FnResult : public std::optional<_ValueType> {
         return *this;
     }
 
+    inline FnResult &
+    touch_value(std::function<void(_ValueType &value)> fn) noexcept {
+        if (success()) {
+            fn(value());
+        }
+        return *this;
+    }
+
     inline bool operator==(const _ValueType &value) {
         return this->success() && (this->value() == value);
     }

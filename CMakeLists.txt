@@ -13,6 +13,7 @@ add_executable(BasicExample examples/BasicExample.cpp)
 add_executable(ResultValueExample examples/ResultValueExample.cpp)
 add_executable(HandlerExample examples/HandlerExample.cpp)
 add_executable(ResultComparison examples/ResultComparison.cpp)
+add_executable(TouchResultValue examples/TouchResultValue.cpp)
 
 # set global include directories for project executables
 include_directories(src/)
